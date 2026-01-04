@@ -47,6 +47,7 @@ export async function PUT(
       where: { id: params.id },
       data: {
         ...validated,
+        categoryId: validated.categoryId || undefined,
         publishedAt: validated.isPublished && !currentBlog?.publishedAt ? new Date() : currentBlog?.publishedAt,
       },
     })
