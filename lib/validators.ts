@@ -66,9 +66,9 @@ export const pageSchema = z.object({
   title: z.string().min(1, "Başlık zorunludur"),
   slug: z.string().min(1, "Slug zorunludur"),
   content: z.string().min(1, "İçerik zorunludur"),
-  template: z.enum(["DEFAULT", "CONTACT", "ABOUT", "FULL_WIDTH"]).default("DEFAULT"),
-  isPublished: z.boolean().default(false),
-  order: z.number().default(0),
+  template: z.enum(["DEFAULT", "CONTACT", "ABOUT", "FULL_WIDTH"]),
+  isPublished: z.boolean(),
+  order: z.number(),
   ...seoSchema.shape,
 })
 
@@ -84,9 +84,9 @@ export const serviceSchema = z.object({
   icon: z.string().optional().nullable(),
   image: z.string().optional().nullable(),
   features: z.array(z.string()).optional().nullable(),
-  showOnHomepage: z.boolean().default(true),
-  isPublished: z.boolean().default(false),
-  order: z.number().default(0),
+  showOnHomepage: z.boolean(),
+  isPublished: z.boolean(),
+  order: z.number(),
   ...seoSchema.shape,
 })
 
@@ -101,8 +101,8 @@ export const serviceAreaSchema = z.object({
   description: z.string().optional().nullable(),
   content: z.string().optional().nullable(),
   image: z.string().optional().nullable(),
-  isPublished: z.boolean().default(false),
-  order: z.number().default(0),
+  isPublished: z.boolean(),
+  order: z.number(),
   ...seoSchema.shape,
 })
 
