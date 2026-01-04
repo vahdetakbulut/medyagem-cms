@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import {
   LayoutDashboard,
   ExternalLink,
+  Globe,
   FileText,
   Briefcase,
   MapPin,
@@ -60,6 +61,12 @@ const navigation: NavGroup[] = [
         slug: "dashboard",
         icon: <LayoutDashboard className="h-5 w-5" />,
         path: "/admin",
+      },
+      {
+        name: "Siteler",
+        slug: "sites",
+        icon: <Globe className="h-5 w-5" />,
+        path: "/admin/sites",
       },
       {
         name: "Siteye Git",
