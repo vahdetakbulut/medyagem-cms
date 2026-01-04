@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { Prisma } from "@prisma/client"
 import { auth } from "@/lib/auth"
 import { blogSchema } from "@/lib/validators"
 
@@ -43,13 +44,14 @@ export async function PUT(
 
     const currentBlog = await prisma.blog.findUnique({ where: { id: params.id } })
 
-    const { categoryId, ...rest } = validated
+    const { categoryId, tags, ...rest } = validated
 
     const blog = await prisma.blog.update({
       where: { id: params.id },
       data: {
         ...rest,
         categoryId: categoryId || null,
+        tags: tags ?? Prisma.JsonNull,
         publishedAt: validated.isPublished && !currentBlog?.publishedAt ? new Date() : currentBlog?.publishedAt,
       },
     })
