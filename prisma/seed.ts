@@ -8,12 +8,12 @@ async function main() {
 
   // Create default site
   const site = await prisma.site.upsert({
-    where: { slug: "ana-site" },
+    where: { slug: "default" },
     update: {},
     create: {
       id: "default-site",
-      name: "Ana Site",
-      slug: "ana-site",
+      name: "MedyaGem",
+      slug: "default",
       email: "info@example.com",
       phone: "+90 555 555 5555",
       address: "İstanbul, Türkiye",
