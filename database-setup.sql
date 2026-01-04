@@ -4,16 +4,30 @@
 -- ============================================
 
 -- ENUMS
-CREATE TYPE "Role" AS ENUM ('ADMIN', 'EDITOR');
-CREATE TYPE "PageTemplate" AS ENUM ('DEFAULT', 'CONTACT', 'ABOUT', 'FULL_WIDTH');
-CREATE TYPE "MenuLocation" AS ENUM ('HEADER', 'FOOTER', 'FOOTER_SERVICES', 'FOOTER_AREAS');
+DO $$ BEGIN
+    CREATE TYPE "Role" AS ENUM ('ADMIN', 'EDITOR');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE "PageTemplate" AS ENUM ('DEFAULT', 'CONTACT', 'ABOUT', 'FULL_WIDTH');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE "MenuLocation" AS ENUM ('HEADER', 'FOOTER', 'FOOTER_SERVICES', 'FOOTER_AREAS');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- ============================================
 -- TABLES
 -- ============================================
 
 -- Sites Table
-CREATE TABLE "sites" (
+CREATE TABLE IF NOT EXISTS "sites" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
@@ -43,10 +57,10 @@ CREATE TABLE "sites" (
     CONSTRAINT "sites_pkey" PRIMARY KEY ("id")
 );
 
-CREATE UNIQUE INDEX "sites_slug_key" ON "sites"("slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "sites_slug_key" ON "sites"("slug");
 
 -- Users Table
-CREATE TABLE "users" (
+CREATE TABLE IF NOT EXISTS "users" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -59,10 +73,10 @@ CREATE TABLE "users" (
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX IF NOT EXISTS "users_email_key" ON "users"("email");
 
 -- Pages Table
-CREATE TABLE "pages" (
+CREATE TABLE IF NOT EXISTS "pages" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -82,10 +96,10 @@ CREATE TABLE "pages" (
     CONSTRAINT "pages_pkey" PRIMARY KEY ("id")
 );
 
-CREATE UNIQUE INDEX "pages_site_id_slug_key" ON "pages"("site_id", "slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "pages_site_id_slug_key" ON "pages"("site_id", "slug");
 
 -- Services Table
-CREATE TABLE "services" (
+CREATE TABLE IF NOT EXISTS "services" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -109,10 +123,10 @@ CREATE TABLE "services" (
     CONSTRAINT "services_pkey" PRIMARY KEY ("id")
 );
 
-CREATE UNIQUE INDEX "services_site_id_slug_key" ON "services"("site_id", "slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "services_site_id_slug_key" ON "services"("site_id", "slug");
 
 -- Service Areas Table
-CREATE TABLE "service_areas" (
+CREATE TABLE IF NOT EXISTS "service_areas" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -134,10 +148,10 @@ CREATE TABLE "service_areas" (
     CONSTRAINT "service_areas_pkey" PRIMARY KEY ("id")
 );
 
-CREATE UNIQUE INDEX "service_areas_site_id_slug_key" ON "service_areas"("site_id", "slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "service_areas_site_id_slug_key" ON "service_areas"("site_id", "slug");
 
 -- Blog Categories Table
-CREATE TABLE "blog_categories" (
+CREATE TABLE IF NOT EXISTS "blog_categories" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -152,10 +166,10 @@ CREATE TABLE "blog_categories" (
     CONSTRAINT "blog_categories_pkey" PRIMARY KEY ("id")
 );
 
-CREATE UNIQUE INDEX "blog_categories_site_id_slug_key" ON "blog_categories"("site_id", "slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "blog_categories_site_id_slug_key" ON "blog_categories"("site_id", "slug");
 
 -- Blogs Table
-CREATE TABLE "blogs" (
+CREATE TABLE IF NOT EXISTS "blogs" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -182,10 +196,10 @@ CREATE TABLE "blogs" (
     CONSTRAINT "blogs_pkey" PRIMARY KEY ("id")
 );
 
-CREATE UNIQUE INDEX "blogs_site_id_slug_key" ON "blogs"("site_id", "slug");
+CREATE UNIQUE INDEX IF NOT EXISTS "blogs_site_id_slug_key" ON "blogs"("site_id", "slug");
 
 -- FAQs Table
-CREATE TABLE "faqs" (
+CREATE TABLE IF NOT EXISTS "faqs" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "question" TEXT NOT NULL,
@@ -201,7 +215,7 @@ CREATE TABLE "faqs" (
 );
 
 -- Sliders Table
-CREATE TABLE "sliders" (
+CREATE TABLE IF NOT EXISTS "sliders" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -223,7 +237,7 @@ CREATE TABLE "sliders" (
 );
 
 -- Counters Table
-CREATE TABLE "counters" (
+CREATE TABLE IF NOT EXISTS "counters" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -240,7 +254,7 @@ CREATE TABLE "counters" (
 );
 
 -- Menus Table
-CREATE TABLE "menus" (
+CREATE TABLE IF NOT EXISTS "menus" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "location" "MenuLocation" NOT NULL,
@@ -257,7 +271,7 @@ CREATE TABLE "menus" (
 );
 
 -- Contacts Table
-CREATE TABLE "contacts" (
+CREATE TABLE IF NOT EXISTS "contacts" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -276,7 +290,7 @@ CREATE TABLE "contacts" (
 );
 
 -- Media Table
-CREATE TABLE "media" (
+CREATE TABLE IF NOT EXISTS "media" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "filename" TEXT NOT NULL,
@@ -294,7 +308,7 @@ CREATE TABLE "media" (
 );
 
 -- Team Members Table
-CREATE TABLE "team_members" (
+CREATE TABLE IF NOT EXISTS "team_members" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -314,7 +328,7 @@ CREATE TABLE "team_members" (
 );
 
 -- Testimonials Table
-CREATE TABLE "testimonials" (
+CREATE TABLE IF NOT EXISTS "testimonials" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -332,7 +346,7 @@ CREATE TABLE "testimonials" (
 );
 
 -- References Table
-CREATE TABLE "references" (
+CREATE TABLE IF NOT EXISTS "references" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -347,7 +361,7 @@ CREATE TABLE "references" (
 );
 
 -- Galleries Table
-CREATE TABLE "galleries" (
+CREATE TABLE IF NOT EXISTS "galleries" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -363,7 +377,7 @@ CREATE TABLE "galleries" (
 );
 
 -- Video Galleries Table
-CREATE TABLE "video_galleries" (
+CREATE TABLE IF NOT EXISTS "video_galleries" (
     "id" TEXT NOT NULL,
     "site_id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
@@ -383,56 +397,136 @@ CREATE TABLE "video_galleries" (
 -- ============================================
 
 -- Pages Foreign Keys
-ALTER TABLE "pages" ADD CONSTRAINT "pages_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "pages" ADD CONSTRAINT "pages_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Services Foreign Keys
-ALTER TABLE "services" ADD CONSTRAINT "services_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "services" ADD CONSTRAINT "services_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Service Areas Foreign Keys
-ALTER TABLE "service_areas" ADD CONSTRAINT "service_areas_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "service_areas" ADD CONSTRAINT "service_areas_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Blog Categories Foreign Keys
-ALTER TABLE "blog_categories" ADD CONSTRAINT "blog_categories_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "blog_categories" ADD CONSTRAINT "blog_categories_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Blogs Foreign Keys
-ALTER TABLE "blogs" ADD CONSTRAINT "blogs_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "blogs" ADD CONSTRAINT "blogs_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "blog_categories"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-ALTER TABLE "blogs" ADD CONSTRAINT "blogs_author_id_fkey" FOREIGN KEY ("author_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "blogs" ADD CONSTRAINT "blogs_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+DO $$ BEGIN
+    ALTER TABLE "blogs" ADD CONSTRAINT "blogs_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "blog_categories"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+DO $$ BEGIN
+    ALTER TABLE "blogs" ADD CONSTRAINT "blogs_author_id_fkey" FOREIGN KEY ("author_id") REFERENCES "users"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- FAQs Foreign Keys
-ALTER TABLE "faqs" ADD CONSTRAINT "faqs_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "faqs" ADD CONSTRAINT "faqs_service_id_fkey" FOREIGN KEY ("service_id") REFERENCES "services"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "faqs" ADD CONSTRAINT "faqs_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+DO $$ BEGIN
+    ALTER TABLE "faqs" ADD CONSTRAINT "faqs_service_id_fkey" FOREIGN KEY ("service_id") REFERENCES "services"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Sliders Foreign Keys
-ALTER TABLE "sliders" ADD CONSTRAINT "sliders_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "sliders" ADD CONSTRAINT "sliders_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Counters Foreign Keys
-ALTER TABLE "counters" ADD CONSTRAINT "counters_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "counters" ADD CONSTRAINT "counters_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Menus Foreign Keys
-ALTER TABLE "menus" ADD CONSTRAINT "menus_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE "menus" ADD CONSTRAINT "menus_parent_id_fkey" FOREIGN KEY ("parent_id") REFERENCES "menus"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "menus" ADD CONSTRAINT "menus_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+DO $$ BEGIN
+    ALTER TABLE "menus" ADD CONSTRAINT "menus_parent_id_fkey" FOREIGN KEY ("parent_id") REFERENCES "menus"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Contacts Foreign Keys
-ALTER TABLE "contacts" ADD CONSTRAINT "contacts_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "contacts" ADD CONSTRAINT "contacts_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Media Foreign Keys
-ALTER TABLE "media" ADD CONSTRAINT "media_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "media" ADD CONSTRAINT "media_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Team Members Foreign Keys
-ALTER TABLE "team_members" ADD CONSTRAINT "team_members_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "team_members" ADD CONSTRAINT "team_members_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Testimonials Foreign Keys
-ALTER TABLE "testimonials" ADD CONSTRAINT "testimonials_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "testimonials" ADD CONSTRAINT "testimonials_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- References Foreign Keys
-ALTER TABLE "references" ADD CONSTRAINT "references_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "references" ADD CONSTRAINT "references_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Galleries Foreign Keys
-ALTER TABLE "galleries" ADD CONSTRAINT "galleries_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "galleries" ADD CONSTRAINT "galleries_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Video Galleries Foreign Keys
-ALTER TABLE "video_galleries" ADD CONSTRAINT "video_galleries_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "video_galleries" ADD CONSTRAINT "video_galleries_site_id_fkey" FOREIGN KEY ("site_id") REFERENCES "sites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- ============================================
 -- INITIAL DATA
@@ -440,7 +534,8 @@ ALTER TABLE "video_galleries" ADD CONSTRAINT "video_galleries_site_id_fkey" FORE
 
 -- Default Site
 INSERT INTO "sites" ("id", "name", "slug", "schema_business_type", "created_at", "updated_at")
-VALUES ('default-site', 'MedyaGem', 'default', 'LocalBusiness', NOW(), NOW());
+VALUES ('default-site', 'MedyaGem', 'default', 'LocalBusiness', NOW(), NOW())
+ON CONFLICT ("id") DO NOTHING;
 
 -- Default Admin User (password: admin123)
 -- NOT: Şifre hash'i için seed script'ini çalıştırın: npm run db:seed

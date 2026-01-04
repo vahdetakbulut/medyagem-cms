@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { DataTable, Column } from "@/components/admin/ui/DataTable"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Globe } from "lucide-react"
+import { Plus } from "lucide-react"
 import Link from "next/link"
 import { useToast } from "@/hooks/use-toast"
 
