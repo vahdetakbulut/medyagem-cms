@@ -119,8 +119,8 @@ export const blogSchema = z.object({
   categoryId: z.string().optional().nullable(),
   tags: z.array(z.string()).optional().nullable(),
   focusKeyword: z.string().optional().nullable(),
-  isFeatured: z.boolean().default(false),
-  isPublished: z.boolean().default(false),
+  isFeatured: z.boolean(),
+  isPublished: z.boolean(),
   publishedAt: z.date().optional().nullable(),
   ...seoSchema.shape,
 })
