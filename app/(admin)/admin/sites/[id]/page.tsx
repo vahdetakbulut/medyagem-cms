@@ -209,7 +209,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Domain</FormLabel>
                         <FormControl>
-                          <Input placeholder="medyagem.com.tr" {...field} value={field.value || ""} />
+                          <Input placeholder="medyagem.com" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
