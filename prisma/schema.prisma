@@ -1,0 +1,472 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+enum PageTemplate {
+  DEFAULT
+  CONTACT
+  ABOUT
+  FULL_WIDTH
+}
+
+enum MenuLocation {
+  HEADER
+  FOOTER
+  FOOTER_SERVICES
+  FOOTER_AREAS
+}
+
+// ============================================
+// MODELS
+// ============================================
+
+// Site - Çoklu site desteği için ana site tablosu
+model Site {
+  id                     String   @id @default(cuid())
+  name                   String
+  slug                   String   @unique
+  domain                 String?
+  logoLight              String?  @map("logo_light")
+  logoDark               String?  @map("logo_dark")
+  favicon                String?
+  phone                  String?
+  whatsapp               String?
+  email                  String?
+  address                String?
+  workingHours           String?  @map("working_hours")
+  slogan                 String?
+  googleAnalyticsId      String?  @map("google_analytics_id")
+  googleSearchConsole    String?  @map("google_search_console")
+  schemaBusinessType     String   @default("LocalBusiness") @map("schema_business_type")
+  schemaPriceRange       String?  @map("schema_price_range")
+  socialFacebook         String?  @map("social_facebook")
+  socialInstagram        String?  @map("social_instagram")
+  socialTwitter          String?  @map("social_twitter")
+  socialYoutube          String?  @map("social_youtube")
+  socialLinkedin         String?  @map("social_linkedin")
+  maintenanceMode        Boolean  @default(false) @map("maintenance_mode")
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  pages        Page[]
+  services     Service[]
+  serviceAreas ServiceArea[]
+  blogs        Blog[]
+  blogCategories BlogCategory[]
+  faqs         FAQ[]
+  sliders      Slider[]
+  counters     Counter[]
+  menus        Menu[]
+  contacts     Contact[]
+  media        Media[]
+  teamMembers  TeamMember[]
+  testimonials Testimonial[]
+  references   Reference[]
+  galleries    Gallery[]
+  videoGalleries VideoGallery[]
+
+  @@map("sites")
+}
+
+// User - Admin kullanıcıları
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(EDITOR)
+  avatar    String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  blogs Blog[]
+
+  @@map("users")
+}
+
+// Page - Statik sayfalar (Hakkımızda, İletişim, Gizlilik vb.)
+model Page {
+  id              String       @id @default(cuid())
+  siteId          String       @map("site_id")
+  title           String
+  slug            String
+  content         String       @db.Text
+  template        PageTemplate @default(DEFAULT)
+  metaTitle       String?      @map("meta_title")
+  metaDescription String?      @map("meta_description")
+  canonicalUrl    String?      @map("canonical_url")
+  robots          String       @default("index, follow")
+  ogImage         String?      @map("og_image")
+  isPublished     Boolean      @default(false) @map("is_published")
+  order           Int          @default(0)
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@unique([siteId, slug])
+  @@map("pages")
+}
+
+// Service - Hizmetler
+model Service {
+  id               String   @id @default(cuid())
+  siteId           String   @map("site_id")
+  title            String
+  slug             String
+  shortDescription String?  @map("short_description")
+  content          String   @db.Text
+  icon             String?
+  image            String?
+  features         Json?
+  metaTitle        String?  @map("meta_title")
+  metaDescription  String?  @map("meta_description")
+  canonicalUrl     String?  @map("canonical_url")
+  robots           String   @default("index, follow")
+  ogImage          String?  @map("og_image")
+  showOnHomepage   Boolean  @default(true) @map("show_on_homepage")
+  isPublished      Boolean  @default(false) @map("is_published")
+  order            Int      @default(0)
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site Site  @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  faqs FAQ[]
+
+  @@unique([siteId, slug])
+  @@map("services")
+}
+
+// ServiceArea - Hizmet bölgeleri (İlçeler)
+model ServiceArea {
+  id              String   @id @default(cuid())
+  siteId          String   @map("site_id")
+  name            String
+  slug            String
+  city            String
+  description     String?  @db.Text
+  content         String?  @db.Text
+  image           String?
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description")
+  canonicalUrl    String?  @map("canonical_url")
+  robots          String   @default("index, follow")
+  ogImage         String?  @map("og_image")
+  isPublished     Boolean  @default(false) @map("is_published")
+  order           Int      @default(0)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@unique([siteId, slug])
+  @@map("service_areas")
+}
+
+// Blog - Blog yazıları
+model Blog {
+  id              String    @id @default(cuid())
+  siteId          String    @map("site_id")
+  title           String
+  slug            String
+  excerpt         String?
+  content         String    @db.Text
+  featuredImage   String?   @map("featured_image")
+  categoryId      String?   @map("category_id")
+  tags            Json?
+  authorId        String?   @map("author_id")
+  focusKeyword    String?   @map("focus_keyword")
+  metaTitle       String?   @map("meta_title")
+  metaDescription String?   @map("meta_description")
+  canonicalUrl    String?   @map("canonical_url")
+  robots          String    @default("index, follow")
+  ogImage         String?   @map("og_image")
+  isFeatured      Boolean   @default(false) @map("is_featured")
+  isPublished     Boolean   @default(false) @map("is_published")
+  publishedAt     DateTime? @map("published_at")
+  views           Int       @default(0)
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  site     Site          @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  category BlogCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  author   User?         @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@unique([siteId, slug])
+  @@map("blogs")
+}
+
+// BlogCategory - Blog kategorileri
+model BlogCategory {
+  id              String   @id @default(cuid())
+  siteId          String   @map("site_id")
+  name            String
+  slug            String
+  description     String?
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description")
+  order           Int      @default(0)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site  Site   @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  blogs Blog[]
+
+  @@unique([siteId, slug])
+  @@map("blog_categories")
+}
+
+// FAQ - Sık Sorulan Sorular
+model FAQ {
+  id          String   @id @default(cuid())
+  siteId      String   @map("site_id")
+  question    String
+  answer      String   @db.Text
+  category    String?
+  serviceId   String?  @map("service_id")
+  isPublished Boolean  @default(true) @map("is_published")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site    Site     @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  service Service? @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  @@map("faqs")
+}
+
+// Slider - Ana sayfa slider/hero
+model Slider {
+  id              String   @id @default(cuid())
+  siteId          String   @map("site_id")
+  title           String
+  subtitle        String?
+  description     String?
+  buttonText      String?  @map("button_text")
+  buttonLink      String?  @map("button_link")
+  button2Text     String?  @map("button2_text")
+  button2Link     String?  @map("button2_link")
+  backgroundImage String?  @map("background_image")
+  backgroundVideo String?  @map("background_video")
+  features        Json?
+  isPublished     Boolean  @default(true) @map("is_published")
+  order           Int      @default(0)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@map("sliders")
+}
+
+// Counter - İstatistik sayaçları
+model Counter {
+  id          String   @id @default(cuid())
+  siteId      String   @map("site_id")
+  title       String
+  value       String
+  suffix      String?
+  prefix      String?
+  icon        String?
+  isPublished Boolean  @default(true) @map("is_published")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@map("counters")
+}
+
+// Menu - Menü yönetimi
+model Menu {
+  id          String       @id @default(cuid())
+  siteId      String       @map("site_id")
+  location    MenuLocation
+  title       String
+  link        String?
+  target      String       @default("_self")
+  parentId    String?      @map("parent_id")
+  isPublished Boolean      @default(true) @map("is_published")
+  order       Int          @default(0)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  site     Site   @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  parent   Menu?  @relation("MenuChildren", fields: [parentId], references: [id], onDelete: SetNull)
+  children Menu[] @relation("MenuChildren")
+
+  @@map("menus")
+}
+
+// Contact - İletişim formu mesajları
+model Contact {
+  id         String   @id @default(cuid())
+  siteId     String   @map("site_id")
+  name       String
+  email      String?
+  phone      String?
+  subject    String?
+  message    String   @db.Text
+  sourcePage String?  @map("source_page")
+  ipAddress  String?  @map("ip_address")
+  isRead     Boolean  @default(false) @map("is_read")
+  isStarred  Boolean  @default(false) @map("is_starred")
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@map("contacts")
+}
+
+// Media - Medya dosyaları
+model Media {
+  id           String   @id @default(cuid())
+  siteId       String   @map("site_id")
+  filename     String
+  originalName String   @map("original_name")
+  url          String
+  mimeType     String   @map("mime_type")
+  size         Int
+  width        Int?
+  height       Int?
+  altText      String?  @map("alt_text")
+  folder       String   @default("general")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@map("media")
+}
+
+// TeamMember - Ekip üyeleri
+model TeamMember {
+  id             String   @id @default(cuid())
+  siteId         String   @map("site_id")
+  name           String
+  title          String?
+  bio            String?
+  image          String?
+  email          String?
+  phone          String?
+  socialLinkedin String?  @map("social_linkedin")
+  socialTwitter  String?  @map("social_twitter")
+  isPublished    Boolean  @default(true) @map("is_published")
+  order          Int      @default(0)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@map("team_members")
+}
+
+// Testimonial - Müşteri yorumları
+model Testimonial {
+  id          String   @id @default(cuid())
+  siteId      String   @map("site_id")
+  name        String
+  title       String?
+  company     String?
+  content     String   @db.Text
+  rating      Int      @default(5)
+  image       String?
+  isPublished Boolean  @default(true) @map("is_published")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@map("testimonials")
+}
+
+// Reference - Markalar/Referanslar
+model Reference {
+  id          String   @id @default(cuid())
+  siteId      String   @map("site_id")
+  name        String
+  logo        String?
+  website     String?
+  isPublished Boolean  @default(true) @map("is_published")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@map("references")
+}
+
+// Gallery - Foto galeri
+model Gallery {
+  id          String   @id @default(cuid())
+  siteId      String   @map("site_id")
+  title       String
+  description String?
+  image       String
+  category    String?
+  isPublished Boolean  @default(true) @map("is_published")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@map("galleries")
+}
+
+// VideoGallery - Video galeri
+model VideoGallery {
+  id          String   @id @default(cuid())
+  siteId      String   @map("site_id")
+  title       String
+  description String?
+  videoUrl    String   @map("video_url")
+  thumbnail   String?
+  isPublished Boolean  @default(true) @map("is_published")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  site Site @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@map("video_galleries")
+}
