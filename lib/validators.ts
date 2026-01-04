@@ -31,14 +31,14 @@ export const siteSchema = z.object({
   slogan: z.string().optional().nullable(),
   googleAnalyticsId: z.string().optional().nullable(),
   googleSearchConsole: z.string().optional().nullable(),
-  schemaBusinessType: z.string().default("LocalBusiness"),
+  schemaBusinessType: z.string(),
   schemaPriceRange: z.string().optional().nullable(),
   socialFacebook: z.string().optional().nullable(),
   socialInstagram: z.string().optional().nullable(),
   socialTwitter: z.string().optional().nullable(),
   socialYoutube: z.string().optional().nullable(),
   socialLinkedin: z.string().optional().nullable(),
-  maintenanceMode: z.boolean().default(false),
+  maintenanceMode: z.boolean(),
 })
 
 // ============================================
