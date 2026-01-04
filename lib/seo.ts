@@ -1,4 +1,4 @@
-import { Site, Page, Service, ServiceArea, Blog, FAQ } from "@prisma/client"
+// Type imports removed - types are not used in this file
 
 // ============================================
 // SEO HELPERS

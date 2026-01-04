@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge"
 import {
   LayoutDashboard,
   ExternalLink,
-  Construction,
   FileText,
   Briefcase,
   MapPin,

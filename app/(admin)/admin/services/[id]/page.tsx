@@ -16,7 +16,6 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/form"
 import { SlugInput } from "@/components/admin/ui/SlugInput"
 import { RichEditor } from "@/components/admin/ui/RichEditor"

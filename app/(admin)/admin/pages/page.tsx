@@ -36,7 +36,7 @@ export default function PagesListPage() {
         const data = await response.json()
         setPages(data)
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Hata",
         description: "Sayfalar yüklenirken bir hata oluştu",

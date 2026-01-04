@@ -33,7 +33,6 @@ export async function POST(request: NextRequest) {
 
     // Generate unique filename
     const timestamp = Date.now()
-    const extension = file.name.split(".").pop()
     const filename = `${folder}/${timestamp}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`
 
     // Upload to Vercel Blob

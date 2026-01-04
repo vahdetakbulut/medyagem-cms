@@ -6,7 +6,6 @@ import {
   MapPin,
   PenSquare,
   Inbox,
-  TrendingUp,
   Eye,
   Clock,
 } from "lucide-react"

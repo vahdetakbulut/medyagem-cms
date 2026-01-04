@@ -83,7 +83,7 @@ export default function PageEditPage() {
         })
         router.push("/admin/pages")
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Hata",
         description: "Sayfa yüklenirken bir hata oluştu",
@@ -120,7 +120,7 @@ export default function PageEditPage() {
           variant: "destructive",
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Hata",
         description: "Bir hata oluştu",

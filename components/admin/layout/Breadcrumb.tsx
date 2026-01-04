@@ -61,7 +61,7 @@ export function Breadcrumb() {
       >
         <Home className="h-4 w-4" />
       </Link>
-      {breadcrumbs.slice(1).map((item, index) => (
+      {breadcrumbs.slice(1).map((item) => (
         <div key={item.path} className="flex items-center gap-2">
           <ChevronRight className="h-4 w-4 text-muted-foreground" />
           {item.isLast ? (

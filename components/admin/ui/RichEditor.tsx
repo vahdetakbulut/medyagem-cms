@@ -5,10 +5,10 @@ import StarterKit from "@tiptap/starter-kit"
 import Image from "@tiptap/extension-image"
 import Link from "@tiptap/extension-link"
 import Youtube from "@tiptap/extension-youtube"
-import Table from "@tiptap/extension-table"
-import TableRow from "@tiptap/extension-table-row"
-import TableCell from "@tiptap/extension-table-cell"
-import TableHeader from "@tiptap/extension-table-header"
+import { Table } from "@tiptap/extension-table"
+import { TableRow } from "@tiptap/extension-table-row"
+import { TableCell } from "@tiptap/extension-table-cell"
+import { TableHeader } from "@tiptap/extension-table-header"
 import TextAlign from "@tiptap/extension-text-align"
 import { Button } from "@/components/ui/button"
 import { Toggle } from "@/components/ui/toggle"
@@ -16,7 +16,6 @@ import { Separator } from "@/components/ui/separator"
 import {
   Bold,
   Italic,
-  Underline,
   Strikethrough,
   List,
   ListOrdered,
@@ -58,7 +57,7 @@ interface RichEditorProps {
 export function RichEditor({
   content,
   onChange,
-  placeholder = "İçerik yazın...",
+  placeholder: _placeholder = "İçerik yazın...",
   className,
 }: RichEditorProps) {
   const [linkDialogOpen, setLinkDialogOpen] = useState(false)

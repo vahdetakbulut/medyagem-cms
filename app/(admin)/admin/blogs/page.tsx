@@ -56,7 +56,7 @@ export default function BlogsListPage() {
         const data = await response.json()
         setBlogs(data)
       }
-    } catch (error) {
+    } catch {
       toast({ title: "Hata", description: "Bloglar yüklenemedi", variant: "destructive" })
     } finally {
       setIsLoading(false)

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { slugify } from "@/lib/utils"
-import { RefreshCw, Pencil } from "lucide-react"
+import { RefreshCw } from "lucide-react"
 
 interface SlugInputProps {
   value: string
