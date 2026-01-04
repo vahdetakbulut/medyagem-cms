@@ -13,6 +13,8 @@ import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 import { formatRelativeTime } from "@/lib/utils"
 
+export const dynamic = "force-dynamic"
+
 async function getStats() {
   const [
     pagesCount,
