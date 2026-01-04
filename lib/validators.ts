@@ -8,7 +8,7 @@ export const seoSchema = z.object({
   metaTitle: z.string().max(60).optional().nullable(),
   metaDescription: z.string().max(160).optional().nullable(),
   canonicalUrl: z.string().url().optional().nullable().or(z.literal("")),
-  robots: z.string().default("index, follow"),
+  robots: z.string(),
   ogImage: z.string().optional().nullable(),
 })
 
