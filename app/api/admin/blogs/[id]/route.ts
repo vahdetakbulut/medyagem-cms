@@ -43,11 +43,13 @@ export async function PUT(
 
     const currentBlog = await prisma.blog.findUnique({ where: { id: params.id } })
 
+    const { categoryId, ...rest } = validated
+
     const blog = await prisma.blog.update({
       where: { id: params.id },
       data: {
-        ...validated,
-        categoryId: validated.categoryId || undefined,
+        ...rest,
+        categoryId: categoryId || null,
         publishedAt: validated.isPublished && !currentBlog?.publishedAt ? new Date() : currentBlog?.publishedAt,
       },
     })
