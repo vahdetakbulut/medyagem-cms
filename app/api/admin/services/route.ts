@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { Prisma } from "@prisma/client"
 import { auth } from "@/lib/auth"
 import { serviceSchema } from "@/lib/validators"
 
@@ -33,9 +34,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Bu slug zaten kullanılıyor" }, { status: 400 })
     }
 
+    const { features, ...rest } = validated
+
     const service = await prisma.service.create({
       data: {
-        ...validated,
+        ...rest,
+        features: features ?? Prisma.JsonNull,
         siteId: DEFAULT_SITE_ID,
       },
     })

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { Prisma } from "@prisma/client"
 import { auth } from "@/lib/auth"
 import { serviceSchema } from "@/lib/validators"
 
@@ -40,9 +41,14 @@ export async function PUT(
       return NextResponse.json({ message: "Bu slug zaten kullanılıyor" }, { status: 400 })
     }
 
+    const { features, ...rest } = validated
+
     const service = await prisma.service.update({
       where: { id: params.id },
-      data: validated,
+      data: {
+        ...rest,
+        features: features ?? Prisma.JsonNull,
+      },
     })
 
     return NextResponse.json(service)
