@@ -209,7 +209,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Domain</FormLabel>
                         <FormControl>
-                          <Input placeholder="medyagem.com.tr" {...field} />
+                          <Input placeholder="medyagem.com.tr" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -223,7 +223,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Slogan</FormLabel>
                         <FormControl>
-                          <Input placeholder="Güvenilir çözümler" {...field} />
+                          <Input placeholder="Güvenilir çözümler" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -296,7 +296,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>E-posta</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="info@example.com" {...field} />
+                          <Input type="email" placeholder="info@example.com" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -310,7 +310,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Telefon</FormLabel>
                         <FormControl>
-                          <Input placeholder="+90 555 555 5555" {...field} />
+                          <Input placeholder="+90 555 555 5555" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -324,7 +324,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>WhatsApp</FormLabel>
                         <FormControl>
-                          <Input placeholder="+90 555 555 5555" {...field} />
+                          <Input placeholder="+90 555 555 5555" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -338,7 +338,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Adres</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="İstanbul, Türkiye" {...field} />
+                          <Textarea placeholder="İstanbul, Türkiye" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -352,7 +352,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Çalışma Saatleri</FormLabel>
                         <FormControl>
-                          <Input placeholder="Pazartesi - Cuma: 09:00 - 18:00" {...field} />
+                          <Input placeholder="Pazartesi - Cuma: 09:00 - 18:00" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -375,7 +375,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Facebook</FormLabel>
                         <FormControl>
-                          <Input placeholder="https://facebook.com/..." {...field} />
+                          <Input placeholder="https://facebook.com/..." {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -389,7 +389,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Instagram</FormLabel>
                         <FormControl>
-                          <Input placeholder="https://instagram.com/..." {...field} />
+                          <Input placeholder="https://instagram.com/..." {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -403,7 +403,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Twitter</FormLabel>
                         <FormControl>
-                          <Input placeholder="https://twitter.com/..." {...field} />
+                          <Input placeholder="https://twitter.com/..." {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -417,7 +417,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>YouTube</FormLabel>
                         <FormControl>
-                          <Input placeholder="https://youtube.com/..." {...field} />
+                          <Input placeholder="https://youtube.com/..." {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -431,7 +431,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>LinkedIn</FormLabel>
                         <FormControl>
-                          <Input placeholder="https://linkedin.com/..." {...field} />
+                          <Input placeholder="https://linkedin.com/..." {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -454,7 +454,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Google Analytics ID</FormLabel>
                         <FormControl>
-                          <Input placeholder="G-XXXXXXXXXX" {...field} />
+                          <Input placeholder="G-XXXXXXXXXX" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -468,7 +468,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Google Search Console</FormLabel>
                         <FormControl>
-                          <Input placeholder="Verification code" {...field} />
+                          <Input placeholder="Verification code" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -499,7 +499,7 @@ export default function SiteEditPage() {
                       <FormItem>
                         <FormLabel>Schema Price Range</FormLabel>
                         <FormControl>
-                          <Input placeholder="$$" {...field} />
+                          <Input placeholder="$$" {...field} value={field.value || ""} />
                         </FormControl>
                         <FormDescription>Fiyat aralığı ($, $$, $$$, $$$$)</FormDescription>
                         <FormMessage />
